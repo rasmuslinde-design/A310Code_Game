@@ -3,10 +3,20 @@ Lõime klassiruumi struktuuri, kasutades A-Frame’i primitiive nagu <a-box>, <a
 
 Loogika: Selle asemel, et iga lauda eraldi kirjutada, kasutasime JavaScripti .map() funktsiooni, et genereerida õpilaste töökohad massiivide põhjal. See võimaldas luua sümmeetrilise paigutuse (nii vasakule kui paremale poole vahekäiku) minimaalse koodihulgaga.
 
-2. Karakterite süsteem (30min)
+2. Karakterite ja sisustuse süsteem (30min + 5hr)
 Lisasime stseeni välised 3D-mudelid, kasutades <a-entity> elementi koos gltf-model komponendiga.
 
-Peenhäälestus: Mudelite (õpetaja ja õpilane) suurust ja kuju muutsime atribuudi scale abil. Näiteks kasutasime scale="3.8 4.8 3.8", et muuta karakterid visuaalselt "peenemaks", mis aitab neil mahtuda laudade vahele ilma füüsikamootori takistusteta.
+Peenhäälestus ja paigutus:
+
+Karakterite proportsioonid: Mudelite (õpetaja ja õpilane) suurust ja kuju muutsime atribuudi scale abil. Näiteks kasutasime scale="3.8 4.8 3.8", et muuta karakterid visuaalselt "peenemaks", mis aitab neil mahtuda laudade vahele ilma füüsikamootori takistusteta.
+
+Detailide lisamine: Täitsime klassiruumi spetsiifiliste elementidega nagu kapp (Cabinet.glb), nagi (CoatRack.glb) ja aknad (SquareWindow.glb). Iga mudeli puhul katsetasime korduvalt erinevaid koordinaate, et saavutada visuaalselt korrektne ja loogiline tulemus.
+
+Ruumiline optimeerimine: Viisime läbi mudelite "kokkupõrke-analüüsi" ja asukohakorrektsiooni. Näiteks liigutasime klassiruumi ust piki seina, et tekitada piisavalt ruumi uue nagi jaoks, vältides samas mudelite kattumist.
+
+Akende süvistamine: Akende paigaldamisel kasutasime peenhäälestust z-teljel, et uputada aknaraamid täpselt seina sisse, vältides nende "hõljumist" või seinast liigset läbitungimist. See andis seinale vajaliku sügavuse ja realistliku ilme.
+
+Vertikaalne positsioneerimine: Korrigeerisime mudelite y-telje väärtusi (nt nagi puhul), et tagada objektide loomulik toetumine põrandale, vältides nende "õhus hõljumist".
 
 3. Liikumine ja vaate juhtimine (GTA-stiilis) (4hr)
 Karakteri juhtimine on jaotatud kaheks spetsiaalseks A-Frame'i komponendiks, mille me registreerisime AFRAME.registerComponent abil:
