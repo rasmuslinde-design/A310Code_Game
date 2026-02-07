@@ -1,16 +1,25 @@
-# React + Vite
+1. Klassiruumi planeering (Blueprint) (1hr)
+Lõime klassiruumi struktuuri, kasutades A-Frame’i primitiive nagu <a-box>, <a-plane> ja <a-cylinder>.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Loogika: Selle asemel, et iga lauda eraldi kirjutada, kasutasime JavaScripti .map() funktsiooni, et genereerida õpilaste töökohad massiivide põhjal. See võimaldas luua sümmeetrilise paigutuse (nii vasakule kui paremale poole vahekäiku) minimaalse koodihulgaga.
 
-Currently, two official plugins are available:
+2. Karakterite süsteem (30min)
+Lisasime stseeni välised 3D-mudelid, kasutades <a-entity> elementi koos gltf-model komponendiga.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Peenhäälestus: Mudelite (õpetaja ja õpilane) suurust ja kuju muutsime atribuudi scale abil. Näiteks kasutasime scale="3.8 4.8 3.8", et muuta karakterid visuaalselt "peenemaks", mis aitab neil mahtuda laudade vahele ilma füüsikamootori takistusteta.
 
-## React Compiler
+3. Liikumine ja vaate juhtimine (GTA-stiilis) (4hr)
+Karakteri juhtimine on jaotatud kaheks spetsiaalseks A-Frame'i komponendiks, mille me registreerisime AFRAME.registerComponent abil:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+mouse-look-rig: See komponent tegeleb hiire sisendiga. See arvutab hiire liikumise (onMouseMove) põhjal karakteri pööramise (yaw) ja kaamera kallutamise (pitch). See võimaldabki meil hiirega ringi vaadata ilma, et terve karakter imelikult kalduks.
 
-## Expanding the ESLint configuration
+character-controller: See komponent tegeleb liikumisega. See kuulab klahvivajutusi (WASD) ja arvutab tick() funktsiooni sees välja liikumissuuna vastavalt sellele, kuhu poole mängija parajasti vaatab.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. Füüsika ja kokkupõrked (Collision) (6hr)
+Kasutasime aframe-physics-system’it, et muuta maailm "tahkeks".
+
+dynamic-body: Määrasime mängija keha (rig) dünaamiliseks, kasutades kera kuju (shape: sphere; sphereRadius: 0.4), mis muudab takistuste vahel libisemise sujuvamaks.
+
+static-body: Kõik seinad ja lauad said selle atribuudi, mis tähendab, et need on liikumatud takistused.
+
+Box Colliders: Kuna toolide ja laudade 3D-mudelid on keerulised, lisasime nende ümber lihtsad nähtamatud <a-box> elemendid koos static-body'ga. See optimeerib jõudlust ja muudab kokkupõrked täpsemaks. Kasutasime koodis position ja width/depth parameetreid, et nihutada need "colliderid" täpselt laudade alla, jättes vahekäigud vabaks.
